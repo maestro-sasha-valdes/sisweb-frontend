@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -12,9 +13,12 @@ import {
   FormControl,
   Button,
 } from "@mui/material";
-import { createProduct } from "../api/productsAPI";
+import { getProductById, updateProduct } from "../api/productsAPI";
 
-function NewProduct() {
+function EditProduct() {
+  const { id } = useParams();
+
+  
   const [product, setProduct] = useState({
     name: "",
     prod_type: "",
@@ -23,12 +27,19 @@ function NewProduct() {
     image: "",
   });
 
-  function onChangeHandler(key, value) {
+useEffect (()=>{
+  getProductById(id).then((product) => {
+    setProduct(product)
+  });
+},[id]);
+
+
+  const onChangeHandler = (key, value) => {
     setProduct({ ...product, [key]: value });
   }
 
   const onSaveHandler = () => {
-    createProduct(product);
+    updateProduct(id, product);
   };
 
   return (
@@ -36,7 +47,7 @@ function NewProduct() {
       <Grid container spacing={3} sx={{ width: "70%", marginTop: "10px" }}>
         <Grid item xs={12}>
           <Typography variant="h4" gutterBottom>
-            New Product
+            Edit Product
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -47,7 +58,7 @@ function NewProduct() {
               labelId="prod_type_label"
               name="prod_type"
               id="prod_type"
-              defaultValue={product.prod_type}
+              defaultValue=''
               value={product.prod_type}
               variant="outlined"
               onChange={(e)=>onChangeHandler(e.target.name, e.target.value)}
@@ -127,4 +138,4 @@ function NewProduct() {
   );
 }
 
-export default NewProduct;
+export default EditProduct;

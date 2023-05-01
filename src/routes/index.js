@@ -1,8 +1,9 @@
 import React from "react";
-import { Routes, Route, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../pages/ErrorPage";
 import ListProducts from "../pages/ListProducts";
 import NewProduct from "../pages/NewProduct";
+import EditProduct from "../pages/EditProduct";
 import Shop from "../pages/Shop";
 
 const router = createBrowserRouter([
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/edit-product/:id",
-    element: <NewProduct />,
+    element: <EditProduct />,
     errorElement: <ErrorPage />,
   },
 ]);
